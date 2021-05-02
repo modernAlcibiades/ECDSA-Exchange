@@ -1,9 +1,16 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <body>
   <div class="components">
     <div class="wallet">
       <h1> Your Wallet </h1>
-      <input type="text" id="exchange-address" placeholder="Your Address" />
+      <!--button id="choose-address" class="dropbtn">Choose Address</button-->
+      <label> Address : </label> 
+      <div id="dropdown-content" class="dropdown">
+        <select id="exchange-address" required>
+        </select>
+      </div>  
+      <!--input type="text" id="exchange-address" placeholder="Your Address"-->
       <div id="balance">
         0
       </div>
@@ -16,6 +23,7 @@
       <div class="button" id="transfer-amount">
         Transfer Amount
       </div>
+      <div id="error-message"></div>
     </div>
   </div>
 
