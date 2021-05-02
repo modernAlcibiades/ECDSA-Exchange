@@ -19,7 +19,7 @@ const Ledger = new require('./ledger');
 const ledger = new Ledger();
 for (let i = 0; i < start_accounts; i++) {
   const key = ec.genKeyPair();
-  const privateKey = key.getPrivate();
+  const privateKey = key.getPrivate().toString(16);
   const publicKey = key.getPublic().encode('hex');
   // Starting balance random between 50-100
   const balance = Math.floor((Math.random() * 50) + 50);

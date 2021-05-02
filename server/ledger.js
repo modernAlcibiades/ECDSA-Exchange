@@ -23,11 +23,9 @@ class Account {
 
     verifyMessage(msg, signature) {
         const _msgHash = SHA256(msg).toString();
-        console.log(_msgHash);
-        console.log(signature);
-        const out = this.public_key.verify(_msgHash.toString(), signature);
-        console.log(out);
-        return out;
+        //console.log(_msgHash);
+        //console.log(signature);
+        return this.public_key.verify(_msgHash.toString(), signature);
     }
 }
 
@@ -66,7 +64,8 @@ class Ledger {
                 const message = JSON.stringify({ "from": from, "to": to, "amount": amount });
                 if (this.accounts[from].verifyMessage(message, signature)) {
                     this.accounts[from].setBalance(balance_from - amount);
-                    this.accounts[from].setBalance(balance_to + amount);
+                    this.accounts[to].setBalance(balance_to + amount);
+                    return "Success!";
                 } else {
                     return "Cannot authenticate. Please check signature.";
                 }

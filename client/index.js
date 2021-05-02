@@ -8,13 +8,14 @@ const server = "http://localhost:3042";
 
 document.getElementById("transfer-amount").addEventListener('click', () => {
   const sender = document.getElementById("exchange-address").value;
-  const amount = document.getElementById("send-amount").value;
+  const amount = parseInt(document.getElementById("send-amount").value);
   const recipient = document.getElementById("recipient").value;
 
   // To avoid storing private in a variable directly
   const _msghash = SHA256(JSON.stringify({ "from": sender, "to": recipient, "amount": amount }));
   console.log(_msghash.toString());
-  const signature = ec.keyFromPrivate(BigInt(document.getElementById("key").value)).sign(_msghash.toString());
+  const full_signature = ec.keyFromPrivate(document.getElementById("key").value).sign(_msghash.toString());
+  const signature = { r: full_signature.r.toString(16), s: full_signature.s.toString(16) };
   console.log(signature);
 
   const body = JSON.stringify({
