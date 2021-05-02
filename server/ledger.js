@@ -1,16 +1,11 @@
 
 const SHA256 = require('crypto-js/sha256');
-
-const BASE_TXN = {
-    from: "",
-    to: "",
-
-}
-
+const EC = require('elliptic').ec;
+const ec = new EC('secp256k1');
 class Account {
     constructor(_name, _pubkey, _balance) {
         this.name = _name;
-        this.public_key = _pubkey;
+        this.public_key = ec.keyFromPublic(_pubkey, 'hex');
         this.balance = _balance;
     }
 
@@ -28,7 +23,11 @@ class Account {
 
     verifyMessage(msg, signature) {
         const _msgHash = SHA256(msg).toString();
-        return this.public_key.verify(_msgHash, signature);
+        console.log(_msgHash);
+        console.log(signature);
+        const out = this.public_key.verify(_msgHash.toString(), signature);
+        console.log(out);
+        return out;
     }
 }
 
@@ -65,7 +64,7 @@ class Ledger {
             if (balance_from >= amount && amount >= 0) {
                 // Check if the message can be authenticated
                 const message = JSON.stringify({ "from": from, "to": to, "amount": amount });
-                if (this.accounts.from.verify(message, signature)) {
+                if (this.accounts[from].verifyMessage(message, signature)) {
                     this.accounts[from].setBalance(balance_from - amount);
                     this.accounts[from].setBalance(balance_to + amount);
                 } else {

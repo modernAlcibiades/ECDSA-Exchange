@@ -25,7 +25,7 @@ for (let i = 0; i < start_accounts; i++) {
   const balance = Math.floor((Math.random() * 50) + 50);
   ledger.addAccount(publicKey, balance);
   console.log("Public Key :", `0x${publicKey}`);
-  console.log("Private Key :", `0x${privateKey.toString()}`);
+  console.log("Private Key :", `${privateKey.toString()}`);
   console.log("-".repeat(30));
 }
 
