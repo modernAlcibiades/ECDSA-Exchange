@@ -36,7 +36,6 @@ app.get('/balance/:address', (req, res) => {
 });
 
 app.get('/addresses', (req, res) => {
-  console.log(Object.keys(ledger.accounts));
   res.send({ "addr": Object.keys(ledger.accounts) });
 });
 

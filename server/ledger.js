@@ -61,10 +61,12 @@ class Ledger {
             const balance_to = this.accounts[to].getBalance();
             if (balance_from >= amount && amount >= 0) {
                 // Check if the message can be authenticated
-                const message = JSON.stringify({ "from": from, "to": to, "amount": amount });
-                if (this.accounts[from].verifyMessage(message, signature)) {
+                const message = { "from": from, "to": to, "amount": amount };
+                if (this.accounts[from].verifyMessage(JSON.stringify(message), signature)) {
                     this.accounts[from].setBalance(balance_from - amount);
                     this.accounts[to].setBalance(balance_to + amount);
+                    this.transactions.push(message);
+                    console.log(message);
                     return "Success!";
                 } else {
                     return "Cannot authenticate. Please check signature.";
